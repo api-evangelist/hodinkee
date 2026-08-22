@@ -1,0 +1,40 @@
+generated: '2026-08-22'
+method: generated
+source: mcp/hodinkee-ucp-mcp-tools.json
+name: HODINKEE Shop agent skills
+description: >-
+  Packaged agent skills for the HODINKEE Shop UCP/MCP surface. Every operation
+  named in these skills was read from a live tools/list response probed on
+  2026-08-22 — no tool name, argument path or error code is invented. Hodinkee
+  publishes no skills or AGENTS.md of its own; these are authored by API
+  Evangelist from the provider's real contract and are marked generated.
+provider_published_skills: false
+provider_published_skills_note: >-
+  shop.hodinkee.com/llms.txt points agents at Shopify's cross-store skill
+  (https://shop.app/SKILL.md), which is not a Hodinkee artifact and is not
+  vendored here.
+skills:
+- name: hodinkee-find-a-watch
+  file: skills/hodinkee-find-a-watch.md
+  surface: read
+  operations:
+  - search_catalog
+  - lookup_catalog
+  - get_product
+- name: hodinkee-build-a-cart
+  file: skills/hodinkee-build-a-cart.md
+  surface: write
+  operations:
+  - create_cart
+  - update_cart
+  - get_cart
+  - cancel_cart
+  - create_checkout
+  - update_checkout
+  - get_checkout
+  - cancel_checkout
+  - complete_checkout
+  guardrail: >-
+    complete_checkout requires contemporaneous human approval per the store's
+    published robots.txt and llms.txt.
+checked: '2026-08-22'

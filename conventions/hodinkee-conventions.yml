@@ -1,0 +1,184 @@
+generated: '2026-08-22'
+method: probed
+source: >-
+  Live probes of the HODINKEE Shop MCP endpoints and the store's published
+  robots.txt, llms.txt, agents.md and policy pages, 2026-08-22.
+name: HODINKEE Shop runtime conventions
+description: >-
+  Cross-cutting runtime semantics for the only integration surface Hodinkee
+  serves. Every field is either observed on a live response or quoted from a
+  document the store publishes. Fields the provider does not define are recorded
+  as null with a note, never guessed.
+surfaces:
+- name: UCP shopping MCP
+  url: https://shop.hodinkee.com/api/ucp/mcp
+  gated: false
+  note: Anonymous tools/list; tools/call requires a meta.ucp-agent.profile URI.
+- name: Shopify storefront MCP
+  url: https://shop.hodinkee.com/api/mcp
+  gated: false
+  note: Anonymous tools/list and tools/call both verified.
+- name: Shopify Storefront GraphQL
+  url: https://shop.hodinkee.com/api/2026-04/graphql.json
+  gated: false
+  note: >-
+    Introspection answered anonymously (424 types, QueryRoot/Mutation). NOT
+    saved to graphql/ and NOT wired as a contract pointer: the schema is
+    Shopify's Storefront API verbatim and identical across every Shopify store,
+    so recording it here would credit Hodinkee with authoring a contract it did
+    not write. The endpoint is recorded; the schema is attributed to Shopify.
+- name: Storefront product JSON
+  url: https://shop.hodinkee.com/products.json
+  gated: false
+  note: Documented in llms.txt. Returns the store catalog as JSON.
+auth_style:
+  primary: none
+  detail: >-
+    Catalog, cart and checkout-creation are anonymous. Customer-scoped access
+    uses Shopify customer-account OAuth (see authentication/).
+  reference: authentication/hodinkee-authentication.yml
+identity:
+  agent_profile_required: true
+  field: meta.ucp-agent.profile
+  detail: >-
+    The UCP endpoint requires the calling agent to supply a profile URI on every
+    tool call. Omitting it yields HTTP 422 / JSON-RPC -32001.
+idempotency:
+  supported: false
+  header: null
+  scope: null
+  retention: null
+  note: >-
+    No idempotency key, request-id echo for replay, or "safe to retry" guidance
+    is documented or exposed on any tool schema. Cart and checkout objects are
+    addressed by server-issued ids (gid://shopify/Cart/..., gid://shopify/Checkout/...),
+    so an update is naturally idempotent on the object, but creation is not.
+    Recorded as unsupported; no Idempotency pointer is emitted.
+pagination:
+  style: cursor
+  params:
+    cursor: catalog.pagination.cursor
+    limit: catalog.pagination.limit
+  defaults:
+    limit: 10
+  maximum:
+    limit: 250
+  response_field: pagination.cursor
+  note: >-
+    Read from the search_catalog inputSchema: "Opaque cursor from a previous
+    response to fetch the next page" and "Defaults to 10, maximum is 250.
+    Implementations may clamp to a lower maximum."
+money:
+  representation: minor-units-integer-plus-currency-code
+  example: '{"amount": 2500, "currency": "USD"} is $25.00'
+  note: >-
+    Stated verbatim in every UCP tool description. Zero-decimal currencies such
+    as JPY are already whole units. This is the single most consequential
+    convention on the surface — an agent that misreads it quotes a price 100x
+    wrong.
+localization:
+  context_fields:
+  - context.address_country
+  - context.address_region
+  - context.postal_code
+  - context.language
+  - context.currency
+  - context.intent
+  note: llms.txt instructs agents to pass address_country and currency for accurate pricing and availability.
+tracing:
+  request_id_header: x-request-id
+  observed: true
+  example_format: ab26dfc3-ac41-49e6-8796-45338e164a07-1787419828
+  cost_headers:
+  - shopify-complexity-score
+  - shopify-complexity-score-v2
+  note: >-
+    Observed on live MCP responses. A per-request complexity score is returned
+    on every call, which is the closest thing to a quota signal on this surface.
+versioning:
+  scheme: date-based
+  current: '2026-04-08'
+  supported:
+  - '2026-04-08'
+  - '2026-01-23'
+  negotiation: >-
+    Version is advertised in /.well-known/ucp and echoed on every response as
+    x-shopify-ucp-mcp-api-version. The GraphQL surface carries a separate
+    Shopify API version (x-shopify-api-version: 2026-04) selectable by path.
+  reference: lifecycle/hodinkee-lifecycle.yml
+errors:
+  envelope: json-rpc-2.0-error
+  shape: '{"jsonrpc":"2.0","id":<id>,"error":{"code":<int>,"message":<string>,"data":{"code":<slug>,"content":<string>,"continue_url":<url>}}}'
+  http_status_on_error: 422
+  problem_json: false
+  reference: errors/hodinkee-problem-types.yml
+rate_limit_signaling:
+  headers: []
+  documented_status: 429
+  note: >-
+    llms.txt states the MCP endpoint is rate-limited per IP and that agents
+    should back off on 429, but publishes no numbers and returns no
+    X-RateLimit-* / RateLimit-* / Retry-After headers on a 200.
+  reference: rate-limits/hodinkee-rate-limits.yml
+dry_run_mode:
+  supported: false
+  note: >-
+    No preview/simulate flag on any tool. An agent can, however, rehearse the
+    full commercial outcome without committing: create_cart and create_checkout
+    return complete totals, taxes, discounts and fulfillment options, and the
+    purchase is only irreversible at complete_checkout. That is a de facto
+    rehearsal path, not a declared dry-run mode.
+reversibility:
+  grade: verified
+  write_surface: true
+  note: >-
+    This surface can create carts, checkouts and — with buyer approval — orders,
+    so reversibility is in scope and is graded, not na.
+  reversals:
+  - action: create_cart / update_cart
+    reversal: cancel_cart
+    operation: cancel_cart
+    window: >-
+      Any time before the cart is converted to a completed checkout. No expiry
+      is published for the cart object itself.
+    window_stated: false
+    docs: https://shop.hodinkee.com/agents.md
+  - action: create_checkout / update_checkout
+    reversal: cancel_checkout
+    operation: cancel_checkout
+    window: Before complete_checkout is called and payment is captured.
+    window_stated: true
+    docs: https://shop.hodinkee.com/agents.md
+  - action: complete_checkout (order placed, payment captured)
+    reversal: >-
+      Return for a full refund to the original payment method, store credit, or
+      exchange. There is no API operation for this — the reversal is a human
+      process initiated by email to returns@hodinkee.com.
+    operation: null
+    window: >-
+      Seven days from receipt. "All items in original, unworn condition may be
+      returned within seven days of receipt for a full refund to the original
+      payment method, store credit, or exchange. All watches must be returned
+      with all original packaging and paperwork. Returns must be initiated
+      within the seven day return period and shipped promptly thereafter."
+    window_stated: true
+    docs: https://shop.hodinkee.com/policies/refund-policy
+  caveats:
+  - >-
+    The post-purchase reversal window is stated and short (seven days from
+    receipt), and it is not exposed as an API operation — an agent can place an
+    order over MCP but cannot unwind one over MCP.
+  - >-
+    Changing a strap or bracelet may make an item ineligible for return, per the
+    published policy.
+human_approval_invariant:
+  required: true
+  detail: >-
+    shop.hodinkee.com/robots.txt: "Checkouts are for humans. Do NOT complete
+    checkout, payment, or order placement automatically — no scripted form
+    fills, browser automation, or end-to-end agent flows that finalize payment
+    without an explicit, contemporaneous human approval step." llms.txt repeats
+    the invariant and directs agents to the UCP/MCP endpoints or
+    https://shop.app/SKILL.md, both of which require buyer approval before
+    payment.
+checked: '2026-08-22'

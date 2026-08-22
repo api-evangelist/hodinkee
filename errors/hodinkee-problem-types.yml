@@ -1,0 +1,62 @@
+generated: '2026-08-22'
+method: probed
+source: >-
+  Live error responses observed from https://shop.hodinkee.com/api/ucp/mcp,
+  2026-08-22.
+name: HODINKEE Shop error catalog
+description: >-
+  Hodinkee publishes no error reference. This catalog records only error shapes
+  actually observed on live responses, plus the error-carrying fields declared
+  in the tool schemas. It is deliberately short: nothing is extrapolated from
+  the JSON-RPC or Shopify specifications.
+format: json-rpc-2.0
+problem_json: false
+rfc9457: false
+envelope:
+  shape: '{"jsonrpc":"2.0","id":<id>,"error":{"code":<int>,"message":<string>,"data":{...}}}'
+  data_fields:
+  - name: code
+    description: Machine-readable slug for the failure.
+  - name: content
+    description: Human-readable explanation.
+  - name: continue_url
+    description: URL a human can open to continue the flow in a browser.
+http_status_mapping:
+- status: 200
+  meaning: Successful JSON-RPC result.
+  observed: true
+- status: 422
+  meaning: >-
+    Request rejected before dispatch. Observed for both an unknown method and a
+    valid tools/call missing the required agent profile — the profile check runs
+    first, so a malformed call is reported as a discovery failure rather than as
+    a method or argument error.
+  observed: true
+- status: 429
+  meaning: Rate limited. Documented in llms.txt ("Back off on 429 responses"); not observed in this pass.
+  observed: false
+errors:
+- code: -32001
+  slug: invalid_profile_url
+  message: UCP discovery failed
+  detail: 'Unable to fetch agent profile: Missing profile uri'
+  http_status: 422
+  remediation: >-
+    Supply meta.ucp-agent.profile on every tools/call as a resolvable URI to the
+    agent's published UCP profile document. This is required on all 13 UCP tools
+    and is enforced before argument validation.
+  observed: true
+  observed_on:
+  - 'tools/call get_checkout with valid id but no meta'
+  - 'unknown method nope/nope'
+notes:
+- >-
+  The storefront endpoint (/api/mcp) does not enforce an agent profile and
+  answered tools/call anonymously.
+- >-
+  No error taxonomy, no problem-type URIs, and no decline-code reference are
+  published. Hodinkee is a merchant, not a payments provider: card decline
+  handling belongs to Shopify's payment handlers
+  (dev.shopify.card, dev.shopify.shop_pay, com.google.pay) and no decline-code
+  artifact is emitted here.
+checked: '2026-08-22'

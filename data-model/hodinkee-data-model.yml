@@ -1,0 +1,172 @@
+generated: '2026-08-22'
+method: derived
+source: mcp/hodinkee-ucp-mcp-tools.json
+name: HODINKEE Shop commerce data model
+description: >-
+  Entity graph derived from the JSON Schema inputSchema blocks returned by the
+  live tools/list on https://shop.hodinkee.com/api/ucp/mcp, plus the product
+  payload observed on a real search_catalog call. Only entities and fields
+  present in those responses are recorded. Nothing is imported from the Shopify
+  or UCP specifications.
+identifier_scheme:
+  format: Shopify Global ID (GID)
+  pattern: 'gid://shopify/{Type}/{id}'
+  observed:
+  - 'gid://shopify/Product/6638451425355'
+  - 'gid://shopify/ProductVariant/…'
+  - 'gid://shopify/Cart/c1-…?key=…'
+  - 'gid://shopify/Checkout/…'
+  note: >-
+    Cart GIDs carry a `key` query parameter that acts as a capability token — the
+    id alone is not sufficient to address the cart.
+entities:
+- name: Product
+  addressed_by: gid://shopify/Product/{id}
+  operations:
+  - get_product
+  - lookup_catalog
+  - search_catalog
+  - get_product_details
+  fields_observed:
+  - id
+  - title
+  - description.html
+  - url
+  - price_range.min.amount
+  - price_range.min.currency
+  - price_range.max.amount
+  - price_range.max.currency
+  - variants[]
+  note: Prices are integers in ISO 4217 minor units paired with a currency code.
+- name: ProductVariant
+  addressed_by: gid://shopify/ProductVariant/{id}
+  operations:
+  - get_product
+  - update_cart
+  note: The unit a line item references. Selected via `catalog.selected` / `options`.
+- name: Cart
+  addressed_by: gid://shopify/Cart/{id}?key={key}
+  operations:
+  - create_cart
+  - get_cart
+  - update_cart
+  - cancel_cart
+  fields:
+  - line_items
+  - buyer
+  - context
+  - attribution
+  - fulfillment
+  - discounts
+- name: Checkout
+  addressed_by: gid://shopify/Checkout/{id}
+  operations:
+  - create_checkout
+  - get_checkout
+  - update_checkout
+  - complete_checkout
+  - cancel_checkout
+  fields:
+  - cart_id
+  - line_items
+  - buyer
+  - payment
+  - context
+  - attribution
+  - fulfillment
+  - discounts
+- name: Order
+  addressed_by: gid://shopify/Order/{id}
+  operations:
+  - get_order
+  note: >-
+    Read-only on this surface. There is no order-modification or refund
+    operation; post-purchase reversal is a human process (see conventions/).
+- name: Buyer
+  embedded_in:
+  - Cart
+  - Checkout
+  fields:
+  - email
+  - phone_number
+- name: DeliveryAddress
+  embedded_in:
+  - Cart
+  - Checkout
+  fields:
+  - first_name
+  - last_name
+  - phone
+  - address1
+  - address2
+  - city
+  - province_code
+  - zip
+  - country_code
+- name: PaymentInstrument
+  embedded_in:
+  - Checkout.payment.instruments
+  fields:
+  - id
+  - handler_id
+  - type
+  - billing_address
+  - credential.token
+  - credential.type
+  - display.brand
+  - display.last_digits
+  - display.expiry_month
+  - display.expiry_year
+  - selected
+  note: >-
+    handler_id binds the instrument to one of the store's declared payment
+    handlers (com.google.pay, dev.shopify.card, dev.shopify.shop_pay).
+- name: AgentProfile
+  embedded_in:
+  - every UCP tool call
+  path: meta.ucp-agent.profile
+  fields:
+  - profile
+  note: >-
+    Required URI identifying the calling agent. Not a Hodinkee-stored entity —
+    the store dereferences it at call time.
+relationships:
+- from: Cart
+  to: ProductVariant
+  type: has_many
+  via: line_items[].item.id
+- from: Checkout
+  to: Cart
+  type: belongs_to
+  via: checkout.cart_id
+- from: Checkout
+  to: ProductVariant
+  type: has_many
+  via: line_items[].item.id
+- from: Checkout
+  to: PaymentInstrument
+  type: has_many
+  via: payment.instruments[]
+- from: Checkout
+  to: Buyer
+  type: has_one
+  via: buyer
+- from: Cart
+  to: DeliveryAddress
+  type: has_many
+  via: delivery_addresses_to_add[].delivery_address
+- from: Order
+  to: Checkout
+  type: belongs_to
+  via: completion of complete_checkout
+- from: Product
+  to: ProductVariant
+  type: has_many
+  via: variants[]
+lifecycle_path:
+  - search_catalog / lookup_catalog / get_product
+  - create_cart -> update_cart
+  - create_checkout -> update_checkout
+  - complete_checkout (requires contemporaneous buyer approval)
+  - get_order
+checked: '2026-08-22'

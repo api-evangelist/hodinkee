@@ -1,0 +1,101 @@
+generated: '2026-08-22'
+method: probed
+source: https://shop.hodinkee.com/.well-known/
+name: HODINKEE well-known document probe
+description: >-
+  Probe of /.well-known/ across every Hodinkee host resolved on 2026-08-22.
+  The editorial site (www.hodinkee.com) and the insurance site
+  (insurance.hodinkee.com) serve nothing under /.well-known/. The commerce host
+  (shop.hodinkee.com) serves a full RFC 8414 / OpenID / RFC 9728 set plus a
+  Universal Commerce Protocol merchant profile, because the store runs on
+  Shopify and Shopify emits these per store. The documents are served from a
+  host Hodinkee controls and describe Hodinkee's own shop
+  (resource https://shop.hodinkee.com, Shopify shop id 1460732,
+  merchant_name "HODINKEE Shop"), so they are recorded here as Hodinkee's
+  surface, with platform attribution noted on every entry.
+platform_attribution: >-
+  Shopify authors the document templates; Hodinkee operates the store and the
+  host. This is the same relationship as a self-hosted {site}/wp-json surface:
+  the schema belongs to the platform, the endpoint and the data belong to the
+  provider.
+hosts:
+- host: shop.hodinkee.com
+  documents:
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: hodinkee-shop-openid-configuration.json
+    note: >-
+      Shopify customer-account OIDC discovery for shop 1460732. issuer
+      https://shopify.com/authentication/1460732.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: hodinkee-shop-oauth-authorization-server.json
+    note: RFC 8414 authorization-server metadata; identical payload to the OIDC document.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: hodinkee-shop-oauth-protected-resource.json
+    note: >-
+      RFC 9728 protected-resource metadata naming https://shop.hodinkee.com as
+      the resource. This is the document an MCP client reads on a 401 challenge.
+  - path: /.well-known/ucp
+    status: 200
+    file: hodinkee-shop-ucp.json
+    note: >-
+      Universal Commerce Protocol merchant profile — supported UCP versions,
+      the MCP transport endpoint, shopping capabilities and payment handlers.
+      Not a registered IETF well-known name; recorded because it is the
+      discovery document the store's own robots.txt and llms.txt point agents at.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: www.hodinkee.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: insurance.hodinkee.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+absent:
+- name: security.txt
+  note: >-
+    No security.txt on any Hodinkee host. No SecurityTxt pointer is emitted —
+    a recorded 404 is an absence, not a presence.
+- name: api-catalog
+  note: RFC 9727 /.well-known/api-catalog returns 404 on all three hosts.
+checked: '2026-08-22'

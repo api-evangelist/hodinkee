@@ -1,0 +1,37 @@
+generated: '2026-08-22'
+method: searched
+source: https://www.hodinkee.com/
+name: HODINKEE plans and pricing
+description: >-
+  Hodinkee sells watches, accessories and a print magazine subscription to
+  consumers. It publishes no API plans, no developer tiers, no quotas and no
+  usage-based pricing, because it runs no developer program. The agent commerce
+  endpoints are free to call and carry no commercial terms of their own.
+plan_count: 0
+plans: []
+api_pricing:
+  published: false
+  model: none
+  detail: >-
+    The UCP and storefront MCP endpoints are anonymous and free. There is no
+    registration, no metered tier and no published commercial agreement for
+    programmatic access. Revenue is transactional — the agent surface exists to
+    sell products, not to sell API calls.
+consumer_commerce:
+  note: >-
+    Product prices are published per item through the storefront and returned by
+    the catalog tools in ISO 4217 minor units. They are product prices, not API
+    plans, and are deliberately not recorded here as tiers.
+  catalog_endpoint: https://shop.hodinkee.com/products.json
+  magazine_subscription: https://www.hodinkee.com/magazine/subscribe
+  magazine_note: >-
+    The Magazine subscribe page renders its offer client-side; no price was
+    readable from the served HTML, so none is recorded.
+evidence:
+- url: https://www.hodinkee.com/
+  status: 200
+  note: No developer, API or pricing-for-developers navigation anywhere on the site.
+- url: https://shop.hodinkee.com/llms.txt
+  status: 200
+  note: Documents the agent endpoints and states no commercial terms for calling them.
+checked: '2026-08-22'

@@ -1,0 +1,61 @@
+generated: '2026-08-22'
+method: probed
+source: https://shop.hodinkee.com/.well-known/ucp
+name: HODINKEE Shop lifecycle and versioning
+description: >-
+  Hodinkee publishes no versioning policy, no deprecation policy, no SLA and no
+  status page of its own. What versioning exists is inherited from the UCP and
+  Shopify surfaces it serves and is recorded here because it is observable on
+  Hodinkee's own host.
+versioning:
+  scheme: date-based
+  current: '2026-04-08'
+  supported:
+  - version: '2026-04-08'
+    status: current
+    profile: https://hodinkee.myshopify.com/.well-known/ucp/2026-04-08
+  - version: '2026-01-23'
+    status: supported
+    profile: https://hodinkee.myshopify.com/.well-known/ucp/2026-01-23
+  negotiation_header: x-shopify-ucp-mcp-api-version
+  observed_value: '2026-04-08'
+  graphql:
+    header: x-shopify-api-version
+    observed_value: '2026-04'
+    selectable_by_path: true
+    note: >-
+      /api/2025-01/graphql.json and /api/unstable/graphql.json also answered 200,
+      so at least two dated versions plus unstable are reachable.
+deprecation_policy:
+  published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No Sunset or Deprecation header was observed and no deprecation policy is
+    published on any hodinkee.com host. The presence of a second supported UCP
+    version implies overlap, but no removal date is stated. No Deprecation
+    pointer is emitted.
+status_page:
+  published: false
+  probed:
+  - url: https://status.hodinkee.com/
+    status: NXDOMAIN
+  note: >-
+    No status page exists on a Hodinkee-controlled host. No StatusPage pointer
+    is emitted.
+sla:
+  published: false
+changelog:
+  published: false
+  note: >-
+    /changelog returns 404 on www.hodinkee.com. The editorial site publishes a
+    dated article feed (https://www.hodinkee.com/articles/rss.xml) but that is
+    editorial content, not an API changelog, and is wired as BlogRSS instead.
+company_events:
+- date: '2024-10-04'
+  event: >-
+    Acquired by the Watches of Switzerland Group; the brand and media business
+    was valued at approximately $14.4M. Recorded as company lifecycle context,
+    not API lifecycle.
+checked: '2026-08-22'

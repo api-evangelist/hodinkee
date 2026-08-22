@@ -1,18 +1,81 @@
 aid: hodinkee
 name: Hodinkee
-description: 'Hodinkee is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Hodinkee is a New York-based watch media and e-commerce company founded in
+  2008, publishing editorial, video and its print Magazine at www.hodinkee.com
+  and selling new and pre-owned watches, straps and accessories through HODINKEE
+  Shop at shop.hodinkee.com. It was acquired by the Watches of Switzerland Group
+  in October 2024. Hodinkee runs no developer program and publishes no OpenAPI,
+  developer portal or API reference. Its one machine-readable integration
+  surface is agentic commerce: the Shopify-hosted store serves a Universal
+  Commerce Protocol merchant profile at /.well-known/ucp and two live,
+  anonymously callable MCP endpoints for catalog search, cart and checkout,
+  advertised from the store's own robots.txt and llms.txt.
+image: https://www.hodinkee.com/favicon.png
 url: https://raw.githubusercontent.com/api-evangelist/hodinkee/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-22'
 modified: '2026-08-22'
 tags:
 - Company
-apis: []
+- Watches
+- Luxury Goods
+- E-Commerce
+- Media
+- Publishing
+- Retail
+- Agentic Commerce
+- Model Context Protocol
+- Shopify
+apis:
+- name: HODINKEE Shop Agent Commerce (UCP / MCP)
+  description: >-
+    The agent-callable commerce surface of HODINKEE Shop. Two Model Context
+    Protocol endpoints are served from shop.hodinkee.com and answered a real
+    tools/list anonymously on 2026-08-22: /api/ucp/mcp implements the Universal
+    Commerce Protocol shopping service (13 tools across catalog, cart, checkout
+    and order) and /api/mcp is Shopify's narrower storefront tool set (5 tools).
+    Discovery is at /.well-known/ucp, agent instructions at /llms.txt and
+    /agents.md. The tool schemas are authored by Shopify and templated per
+    store; the host, the shop (Shopify shop id 1460732, "HODINKEE Shop") and the
+    catalog the tools return are Hodinkee's.
+  humanURL: https://shop.hodinkee.com/agents.md
+  baseURL: https://shop.hodinkee.com
+  tags:
+  - Agentic Commerce
+  - Model Context Protocol
+  - Universal Commerce Protocol
+  - E-Commerce
+  - Watches
+  properties:
+  - type: MCPServer
+    url: mcp/hodinkee-mcp.yml
+  - type: LLMsTxt
+    url: llms/hodinkee-llms.txt
+  - type: WellKnown
+    url: well-known/hodinkee-well-known.yml
+  - type: Authentication
+    url: authentication/hodinkee-authentication.yml
+  - type: OAuthScopes
+    url: scopes/hodinkee-scopes.yml
+  - type: Conventions
+    url: conventions/hodinkee-conventions.yml
+  - type: Conformance
+    url: conformance/hodinkee-conformance.yml
+  - type: ErrorCatalog
+    url: errors/hodinkee-problem-types.yml
+  - type: DataModel
+    url: data-model/hodinkee-data-model.yml
+  - type: RateLimits
+    url: rate-limits/hodinkee-rate-limits.yml
+  - type: Lifecycle
+    url: lifecycle/hodinkee-lifecycle.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Documentation
+    url: https://shop.hodinkee.com/agents.md
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +83,57 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://forgeglobal.com/hodinkee_stock/
+  url: https://www.hodinkee.com/
+- type: Documentation
+  url: https://shop.hodinkee.com/agents.md
+- type: MCPServer
+  url: mcp/hodinkee-mcp.yml
+- type: LLMsTxt
+  url: llms/hodinkee-llms.txt
+- type: WellKnown
+  url: well-known/hodinkee-well-known.yml
+- type: Authentication
+  url: authentication/hodinkee-authentication.yml
+- type: OAuthScopes
+  url: scopes/hodinkee-scopes.yml
+- type: Conventions
+  url: conventions/hodinkee-conventions.yml
+- type: Conformance
+  url: conformance/hodinkee-conformance.yml
+- type: ErrorCatalog
+  url: errors/hodinkee-problem-types.yml
+- type: DataModel
+  url: data-model/hodinkee-data-model.yml
+- type: RateLimits
+  url: rate-limits/hodinkee-rate-limits.yml
+- type: Lifecycle
+  url: lifecycle/hodinkee-lifecycle.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Plans
+  url: plans/hodinkee-plans-pricing.yml
+- type: Packages
+  url: packages/hodinkee-packages.yml
+- type: DomainSecurity
+  url: security/hodinkee-domain-security.yml
+- type: GitHubOrganization
+  url: https://github.com/hodinkee
+- type: Support
+  url: https://www.hodinkee.com/pages/contact
+- type: Blog
+  url: https://www.hodinkee.com/latest
+- type: BlogRSS
+  url: https://www.hodinkee.com/articles/rss.xml
+- type: SignUp
+  url: https://www.hodinkee.com/signup
+- type: Login
+  url: https://shop.hodinkee.com/account/login
+- type: TermsOfService
+  url: https://www.hodinkee.com/terms-of-service
+- type: PrivacyPolicy
+  url: https://www.hodinkee.com/privacy-policy
+x-enrichment:
+  date: '2026-08-22'
+  status: enriched
+  artifacts_added: 25
+  pass: local-v1

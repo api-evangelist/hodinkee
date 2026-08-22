@@ -1,0 +1,48 @@
+generated: '2026-08-22'
+method: probed
+source: https://shop.hodinkee.com/.well-known/openid-configuration
+name: HODINKEE Shop OAuth scopes
+description: >-
+  Scopes advertised by the authorization-server metadata the Hodinkee commerce
+  host serves. Hodinkee publishes no scopes reference page of its own; these are
+  read verbatim from the live discovery document, which lists them under
+  `scopes_supported`. Descriptions below are the plain reading of each scope
+  name and are marked as such — they are not quoted from provider documentation.
+authorization_server: https://shopify.com/authentication/1460732
+shop_id: '1460732'
+scope_count: 4
+scopes:
+- name: openid
+  standard: OpenID Connect Core
+  description: Request an ID token for the authenticated customer.
+  description_source: derived-from-standard
+- name: email
+  standard: OpenID Connect Core
+  description: Release the customer's email address and email_verified claim.
+  description_source: derived-from-standard
+- name: customer-account-api:full
+  standard: Shopify Customer Account API
+  description: Full customer-scoped access to the account API (orders, addresses, profile).
+  description_source: derived-from-scope-name
+- name: customer-account-mcp-api:full
+  standard: Shopify Customer Account MCP API
+  description: >-
+    Full customer-scoped access to the MCP API. This is the scope that gates the
+    authenticated agent surface; the anonymous UCP and storefront MCP endpoints
+    do not require it.
+  description_source: derived-from-scope-name
+claims_supported:
+- iss
+- sub
+- aud
+- exp
+- iat
+- nonce
+- sid
+- email
+- email_verified
+docs: null
+docs_note: >-
+  No provider-published scopes/permissions reference exists on any hodinkee.com
+  host. Recorded as absent rather than substituted with Shopify platform docs.
+checked: '2026-08-22'

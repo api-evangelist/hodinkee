@@ -1,0 +1,47 @@
+generated: '2026-08-22'
+method: searched
+source: https://shop.hodinkee.com/llms.txt
+docs: https://shop.hodinkee.com/agents.md
+name: HODINKEE Shop rate limits
+description: >-
+  Hodinkee documents that its agent commerce endpoint is rate limited, but
+  publishes no numbers, no window and no response headers. An honest zero is
+  recorded rather than a number inferred from the platform.
+limit_count: 0
+limits: []
+documented:
+  statement: >-
+    "Respect rate limits. The MCP endpoint is rate-limited per IP. Back off on
+    429 responses." — https://shop.hodinkee.com/llms.txt
+  scope: per-ip
+  window: null
+  limit: null
+  burst: null
+  status_on_exhaustion: 429
+response_headers:
+  ratelimit: []
+  retry_after: null
+  observed_on_200:
+  - name: shopify-complexity-score
+    example: '38'
+    note: >-
+      Per-request cost score returned on every MCP call. It is a cost signal,
+      not a remaining-quota signal — it does not tell an agent how much budget
+      is left or when it resets.
+  - name: shopify-complexity-score-v2
+    example: '38'
+  - name: x-request-id
+    note: Correlation id for support, not a rate-limit signal.
+  note: >-
+    No X-RateLimit-*, RateLimit-* (RFC 9239 draft) or Retry-After header was
+    present on a successful response probed on 2026-08-22. An agent has no
+    runtime signal of remaining quota; it can only react to a 429 after the
+    fact.
+graphql_cost:
+  endpoint: https://shop.hodinkee.com/api/2026-04/graphql.json
+  field: extensions.cost.requestedQueryCost
+  observed_value: 3
+  note: >-
+    The Shopify Storefront GraphQL surface returns a query-cost extension in the
+    response body. Platform behaviour, recorded for completeness.
+checked: '2026-08-22'

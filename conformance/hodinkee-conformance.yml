@@ -1,0 +1,124 @@
+generated: '2026-08-22'
+method: probed
+source: >-
+  Live probes of shop.hodinkee.com/.well-known/* and both MCP endpoints,
+  2026-08-22.
+name: HODINKEE Shop standards conformance
+description: >-
+  Cross-cutting and domain-standard conformance assertions for the only
+  machine-readable surface Hodinkee serves. Every entry cites the exact document
+  or response that evidences it. Standards the provider does not implement are
+  recorded with conforms:false rather than omitted.
+standards:
+- id: oauth2
+  name: OAuth 2.0
+  conforms: true
+  evidence: >-
+    Authorization-code + PKCE(S256) + refresh_token grants advertised at
+    https://shopify.com/authentication/1460732 via the store's
+    /.well-known/oauth-authorization-server (HTTP 200).
+  file: well-known/hodinkee-shop-oauth-authorization-server.json
+- id: rfc8414
+  name: OAuth 2.0 Authorization Server Metadata
+  conforms: true
+  evidence: /.well-known/oauth-authorization-server returns 200 with issuer, token_endpoint, authorization_endpoint, jwks_uri.
+- id: rfc9728
+  name: OAuth 2.0 Protected Resource Metadata
+  conforms: true
+  evidence: >-
+    /.well-known/oauth-protected-resource returns 200 naming resource
+    https://shop.hodinkee.com and authorization_servers
+    [https://shopify.com/authentication/1460732], bearer_methods_supported ["header"].
+- id: oidc
+  name: OpenID Connect Discovery 1.0
+  conforms: true
+  evidence: >-
+    /.well-known/openid-configuration returns 200 with subject_types_supported,
+    id_token_signing_alg_values_supported [RS256] and claims_supported.
+- id: mcp
+  name: Model Context Protocol
+  conforms: true
+  evidence: >-
+    POST {"jsonrpc":"2.0","id":1,"method":"tools/list"} returned HTTP 200 and a
+    well-formed JSON-RPC 2.0 result with tools[] carrying JSON Schema
+    2020-12 inputSchema on both /api/ucp/mcp (13 tools) and /api/mcp (5 tools).
+- id: jsonrpc2
+  name: JSON-RPC 2.0
+  conforms: true
+  evidence: >-
+    Both success and error responses carry jsonrpc:"2.0" and matching id; the
+    error object uses the reserved implementation-defined range (-32001).
+- id: json-schema-2020-12
+  name: JSON Schema draft 2020-12
+  conforms: true
+  evidence: >-
+    Every tool inputSchema declares
+    "$schema":"https://json-schema.org/draft/2020-12/schema".
+- id: rfc9457
+  name: Problem Details for HTTP APIs
+  conforms: false
+  evidence: >-
+    Errors are JSON-RPC error objects, not application/problem+json. No
+    problem-type URIs are published.
+- id: openapi
+  name: OpenAPI
+  conforms: false
+  evidence: >-
+    /openapi.json, /openapi.yaml, /swagger.json, /api-docs all 404 on
+    www.hodinkee.com, shop.hodinkee.com and insurance.hodinkee.com.
+- id: asyncapi
+  name: AsyncAPI
+  conforms: false
+  evidence: No event, streaming or webhook surface is published by Hodinkee.
+- id: a2a
+  name: A2A Agent Card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json return 404 on all
+    three hosts.
+domain_standards:
+- id: ucp
+  name: Universal Commerce Protocol
+  version: '2026-04-08'
+  conforms: true
+  market: agentic commerce / retail
+  signature: >-
+    A UCP merchant profile is served at
+    https://shop.hodinkee.com/.well-known/ucp (HTTP 200), declaring
+    ucp.version 2026-04-08, supported_versions [2026-04-08, 2026-01-23], the
+    dev.ucp.shopping service over MCP transport, and the shopping capability
+    namespaces below. Responses additionally carry the header
+    x-shopify-ucp-mcp-api-version: 2026-04-08, and tool results embed a
+    top-level "ucp" version/capability block.
+  capabilities:
+  - dev.ucp.shopping.cart
+  - dev.ucp.shopping.checkout
+  - dev.ucp.shopping.fulfillment
+  - dev.ucp.shopping.discount
+  - dev.ucp.shopping.order
+  - dev.ucp.shopping.catalog.search
+  - dev.ucp.shopping.catalog.lookup
+  - dev.shopify.catalog
+  payment_handlers:
+  - com.google.pay
+  - dev.shopify.card
+  - dev.shopify.shop_pay
+  spec: https://ucp.dev/2026-04-08/specification/overview/
+  schema: https://ucp.dev/2026-04-08/services/shopping/mcp.openrpc.json
+  file: well-known/hodinkee-shop-ucp.json
+  note: >-
+    This is a genuine domain-standard signature read out of the contract itself,
+    not a marketing claim. An agent that already speaks UCP can transact with
+    HODINKEE Shop with no bespoke connector. The implementation is Shopify's,
+    enabled and served on Hodinkee's own host and shop.
+- id: schema-org-product
+  name: Schema.org Product structured data
+  conforms: unknown
+  note: Not assessed in this pass.
+compliance_programs:
+  published: false
+  note: >-
+    No trust center, SOC 2 / ISO 27001 / PCI attestation page, or security
+    disclosure program was found on any hodinkee.com host. No Compliance or
+    TrustCenter pointer is emitted.
+checked: '2026-08-22'

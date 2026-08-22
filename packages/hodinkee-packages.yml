@@ -1,0 +1,116 @@
+generated: '2026-08-22'
+method: searched
+source: https://github.com/hodinkee
+name: HODINKEE published packages
+description: >-
+  Hodinkee ships no client library for any Hodinkee API, because there is no
+  Hodinkee API to wrap. What it has published are two first-party Ruby gems from
+  its editorial platform work, plus Swift/Objective-C libraries released on
+  GitHub only. Both gems were last released in 2017 and both repositories are
+  archived. Registries queried unauthenticated on 2026-08-22:
+  rubygems.org, registry.npmjs.org.
+sdk_count: 0
+sdk_note: >-
+  No SDKs pointer is emitted. None of these packages is a client for a Hodinkee
+  API — emitting `type: SDKs` for unrelated internal libraries would credit
+  Hodinkee with developer tooling it does not ship.
+packages:
+- name: escapement
+  registry: rubygems
+  official: true
+  url: https://rubygems.org/gems/escapement
+  repository: https://github.com/hodinkee/escapement-rb
+  language: Ruby
+  license: BSD-3-Clause
+  version: 2.0.0
+  published: '2017-03-21'
+  purpose: >-
+    Converts HTML formatted strings into a flat text + attribute representation
+    ("rotational HTML into lateral attributes"). Internal content-pipeline
+    tooling for the editorial platform, not an API client.
+  status: abandoned
+  status_evidence: >-
+    Repository archived on GitHub; last push 2017-03-21; latest release 2.0.0 on
+    2017-03-21 — nine years stale as of this pass.
+- name: apple-news
+  registry: rubygems
+  official: true
+  url: https://rubygems.org/gems/apple-news
+  repository: https://github.com/hodinkee/apple-news-rb
+  language: Ruby
+  license: MIT
+  version: 0.5.1
+  published: '2017-08-30'
+  purpose: >-
+    Client for Apple's News API — a third-party API Hodinkee consumed to
+    syndicate its editorial. A consumer-side library, not a Hodinkee API client.
+  status: abandoned
+  status_evidence: >-
+    Repository archived on GitHub; last push 2021-06-08; latest release 0.5.1 on
+    2017-08-30.
+- name: escapement-swift
+  registry: none
+  official: true
+  url: https://github.com/hodinkee/escapement-swift
+  repository: https://github.com/hodinkee/escapement-swift
+  language: Swift
+  version: null
+  published: null
+  version_note: >-
+    Source-only distribution. No CocoaPods/SPM registry record was located and
+    no tagged release is advertised, so there is no metadata endpoint to read a
+    version from. Checked, nothing to record.
+  status: abandoned
+  status_evidence: Repository archived; last push 2017-04-11.
+- name: astronomykit
+  registry: none
+  official: true
+  url: https://github.com/hodinkee/astronomykit
+  repository: https://github.com/hodinkee/astronomykit
+  language: Objective-C++
+  version: null
+  published: null
+  version_note: Source-only distribution; no registry metadata endpoint to query.
+  status: abandoned
+  status_evidence: Repository archived; last push 2022-07-31.
+  purpose: Solar System calculations — supporting library for watch complications work.
+- name: iris
+  registry: none
+  official: true
+  url: https://github.com/hodinkee/iris
+  repository: https://github.com/hodinkee/iris
+  language: Swift
+  version: null
+  published: null
+  version_note: Source-only distribution; no registry metadata endpoint to query.
+  status: abandoned
+  status_evidence: Repository archived; last push 2017-09-19.
+  purpose: Swift framework for working with Imgix — a third-party image CDN client.
+excluded:
+- name: oat
+  reason: >-
+    github.com/hodinkee/oat is a fork. The rubygems `oat` gem is authored by
+    Ismael Celis (homepage github.com/ismasan/oat), not Hodinkee.
+- name: concensus
+  reason: >-
+    Fork of github.com/adamjacobbecker/concensus; the published gem is not
+    Hodinkee's.
+- name: alexander
+  reason: >-
+    Name collision. The rubygems `alexander` gem is a Rack middleware by a
+    different author; Hodinkee's `alexander` is an unpublished Swift JSON helper
+    on GitHub only.
+- name: aaplus
+  reason: Explicitly described as a mirror of AA+ by Naughter Software.
+- name: elasticsearch-rails
+  reason: Fork of the upstream Elastic project.
+- name: action_dispatch-br_static
+  reason: >-
+    Archived Rails middleware; no rubygems record located under that name, so
+    no version could be verified and it is not claimed as published.
+npm:
+  searched: true
+  query: hodinkee
+  results: 0
+  note: registry.npmjs.org search returned no Hodinkee-authored packages.
+checked: '2026-08-22'

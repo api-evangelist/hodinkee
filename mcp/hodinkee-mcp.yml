@@ -1,0 +1,134 @@
+generated: '2026-08-22'
+method: probed
+source: https://shop.hodinkee.com/api/ucp/mcp
+name: HODINKEE Shop MCP
+description: >-
+  HODINKEE Shop (shop.hodinkee.com) exposes two live, anonymously reachable
+  Model Context Protocol endpoints. Both answered a real JSON-RPC tools/list on
+  2026-08-22 with full inputSchema payloads — no OAuth challenge, no
+  invalid_token. The UCP endpoint implements the Universal Commerce Protocol
+  shopping service (catalog, cart, checkout, order); the storefront endpoint is
+  Shopify's narrower conversational-commerce tool set.
+ownership: >-
+  Platform-provided, provider-operated. Shopify authors the tool schemas and
+  serves them for every store; Hodinkee owns the host, the shop
+  (Shopify shop id 1460732, merchant_name "HODINKEE Shop"), and the catalog the
+  tools return. The endpoints are advertised by Hodinkee's own
+  shop.hodinkee.com/robots.txt and /llms.txt. Recorded on the same basis the
+  pipeline records a self-hosted {site}/wp-json surface: the contract is the
+  platform's, the endpoint and the data are the provider's. It is NOT recorded
+  as a contract Hodinkee authored.
+deployment:
+  mode: remote
+  endpoint: https://shop.hodinkee.com/api/ucp/mcp
+  auth: none
+  verified: probed
+status: live
+endpoints:
+- name: UCP shopping MCP
+  url: https://shop.hodinkee.com/api/ucp/mcp
+  canonical_url: https://hodinkee.myshopify.com/api/ucp/mcp
+  transport: streamable-http
+  protocol: Universal Commerce Protocol
+  ucp_version: '2026-04-08'
+  ucp_supported_versions:
+  - '2026-04-08'
+  - '2026-01-23'
+  schema: https://ucp.dev/2026-04-08/services/shopping/mcp.openrpc.json
+  auth: none
+  probe:
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 200
+    content_type: application/json; charset=utf-8
+    response_header: 'x-shopify-ucp-mcp-api-version: 2026-04-08'
+    saved: mcp/hodinkee-ucp-mcp-tools.json
+    fetched: '2026-08-22'
+  tool_count: 13
+  tools:
+  - name: get_checkout
+    category: checkout
+    summary: Returns checkout details including line items, totals, discounts and taxes.
+  - name: create_checkout
+    category: checkout
+    summary: Creates a checkout.
+  - name: update_checkout
+    category: checkout
+    summary: Updates a checkout (buyer, addresses, fulfillment, payment instruments).
+  - name: complete_checkout
+    category: checkout
+    summary: Completes a checkout. Requires contemporaneous buyer approval of payment.
+  - name: cancel_checkout
+    category: checkout
+    summary: Cancels a checkout. Reversal path for an in-flight purchase.
+  - name: get_cart
+    category: cart
+    summary: Get the cart contents.
+  - name: create_cart
+    category: cart
+    summary: Creates a new cart.
+  - name: update_cart
+    category: cart
+    summary: Add, update or remove line items, buyer identity and delivery addresses.
+  - name: cancel_cart
+    category: cart
+    summary: Cancels a cart. Reversal path for cart state.
+  - name: get_order
+    category: order
+    summary: Get the details of an order.
+  - name: search_catalog
+    category: catalog
+    summary: Natural-language and filtered product search over the HODINKEE Shop catalog.
+  - name: lookup_catalog
+    category: catalog
+    summary: Look up multiple products or variants by identifier.
+  - name: get_product
+    category: catalog
+    summary: Retrieve complete product detail by identifier.
+- name: Shopify storefront MCP
+  url: https://shop.hodinkee.com/api/mcp
+  transport: streamable-http
+  auth: none
+  probe:
+    method: POST
+    body: '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+    http_status: 200
+    saved: mcp/hodinkee-storefront-mcp-tools.json
+    fetched: '2026-08-22'
+  tool_count: 5
+  tools:
+  - name: search_catalog
+    category: catalog
+    summary: Product search over the store catalog.
+  - name: get_cart
+    category: cart
+    summary: Get cart items, shipping options, discounts and checkout URL.
+  - name: update_cart
+    category: cart
+    summary: Consolidated cart mutation (items, buyer identity, addresses, discount codes, notes).
+  - name: search_shop_policies_and_faqs
+    category: content
+    summary: Retrieve facts about store policies, products and services.
+  - name: get_product_details
+    category: catalog
+    summary: Look up a product by ID, optionally selecting a variant.
+customer_account_mcp:
+  note: >-
+    The store's OIDC discovery document advertises a
+    `customer-account-mcp-api:full` scope, meaning a customer-scoped MCP API
+    exists behind OAuth. It was NOT probed — doing so requires a customer
+    credential, which this pipeline never uses. Recorded as a known gated
+    surface, not as a measured one.
+  scope: customer-account-mcp-api:full
+  authorization_server: https://shopify.com/authentication/1460732
+agent_rules:
+  - >-
+    shop.hodinkee.com/robots.txt states: "Checkouts are for humans. Do NOT
+    complete checkout, payment, or order placement automatically" without an
+    explicit, contemporaneous human approval step.
+  - >-
+    llms.txt repeats the buyer-approval invariant and directs personal shopping
+    agents to https://shop.app/SKILL.md (Shopify's cross-store Shop skill)
+    rather than to direct storefront scripting.
+  - MCP endpoint is rate-limited per IP; agents are told to back off on 429.
+checked: '2026-08-22'

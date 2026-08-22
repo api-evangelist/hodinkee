@@ -1,0 +1,30 @@
+generated: '2026-08-22'
+method: searched
+source: https://shop.hodinkee.com/llms.txt
+name: HODINKEE Shop llms.txt
+description: >-
+  Provider-published agent instructions, saved verbatim. Served by the commerce
+  host only; www.hodinkee.com and insurance.hodinkee.com return 404 for
+  /llms.txt. The store also serves the same content as markdown at /agents.md,
+  which its own llms.txt names as the canonical agent-facing description.
+files:
+- file: llms/hodinkee-llms.txt
+  url: https://shop.hodinkee.com/llms.txt
+  http_status: 200
+  bytes: 4316
+  content_type: text/plain
+- file: llms/hodinkee-agents.md
+  url: https://shop.hodinkee.com/agents.md
+  http_status: 200
+  bytes: 4273
+  content_type: text/markdown
+probes:
+- url: https://www.hodinkee.com/llms.txt
+  status: 404
+- url: https://insurance.hodinkee.com/llms.txt
+  status: 404
+llms_full: false
+llms_full_note: >-
+  No llms-full.txt is published, and none is generated. Verbatim docs dumps are
+  gitignored in this repo.
+checked: '2026-08-22'
