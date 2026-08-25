@@ -1,0 +1,21 @@
+{
+  "repo": "hodinkee",
+  "feeds": [
+    {
+      "source": "https://www.hodinkee.com/pages/contact",
+      "feed_url": "https://www.hodinkee.com/articles/rss.xml",
+      "title": "",
+      "saved": 10,
+      "method": "discovered"
+    },
+    {
+      "source": "https://www.hodinkee.com/latest",
+      "feed_url": "https://www.hodinkee.com/articles/rss.xml",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 10,
+  "fetched": "2026-08-22T20:20:02Z"
+}
