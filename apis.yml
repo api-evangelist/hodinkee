@@ -11,6 +11,17 @@ description: >-
   Commerce Protocol merchant profile at /.well-known/ucp and two live,
   anonymously callable MCP endpoints for catalog search, cart and checkout,
   advertised from the store's own robots.txt and llms.txt.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.hodinkee.com/favicon.png
 url: https://raw.githubusercontent.com/api-evangelist/hodinkee/refs/heads/main/apis.yml
 x-type: company
