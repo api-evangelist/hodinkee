@@ -38,6 +38,17 @@ tags:
 - Publishing
 - Retail
 - Agentic Commerce
+- MCP
+- Shopify
+tags_raw:
+- Company
+- Watches
+- Luxury Goods
+- E-Commerce
+- Media
+- Publishing
+- Retail
+- Agentic Commerce
 - Model Context Protocol
 - Shopify
 apis:
@@ -55,6 +66,12 @@ apis:
   humanURL: https://shop.hodinkee.com/agents.md
   baseURL: https://shop.hodinkee.com
   tags:
+  - Agentic Commerce
+  - MCP
+  - Universal Commerce Protocol
+  - E-Commerce
+  - Watches
+  tags_raw:
   - Agentic Commerce
   - Model Context Protocol
   - Universal Commerce Protocol
