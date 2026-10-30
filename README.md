@@ -64,5 +64,117 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Hodinkee is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/hodinkee_stock/
+Hodinkee is a New York-based watch media and e-commerce company founded in 2008, publishing editorial, video and its print Magazine at www.hodinkee.com and selling new and pre-owned watches, straps and accessories through HODINKEE Shop at shop.hodinkee.com. It was acquired by the Watches of Switzerland Group in October 2024. Hodinkee runs no developer program and publishes no OpenAPI, developer portal or API reference. Its one machine-readable integration surface is agentic commerce: the Shopify-hosted store serves a Universal Commerce Protocol merchant profile at /.well-known/ucp and two live, anonymously callable MCP endpoints for catalog search, cart and checkout, advertised from the store's own robots.txt and llms.txt.
+
+**Areas:** Company · Watches · Luxury Goods · E-Commerce · Media · Publishing · Retail · Agentic Commerce · MCP · Shopify
+
+## Hodinkee on APIs.io
+
+Everything profiled for Hodinkee is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/hodinkee/](https://apis.io/providers/hodinkee/)** — or go straight to one of the APIs or properties below.
+
+### APIs (1)
+
+- [HODINKEE Shop Agent Commerce (UCP / MCP)](https://apis.io/apis/hodinkee/hodinkee-shop-agent-commerce-ucp-mcp/) — The agent-callable commerce surface of HODINKEE Shop. Two Model Context Protocol endpoints are served from shop.hodinkee.com and answered a real tools/list…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [HODINKEE Shop MCP](https://apis.io/servers/hodinkee/hodinkee-shop-mcp/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Hodinkee Authentication](https://apis.io/security/hodinkee/hodinkee-authentication/)
+- [Hodinkee Domain Security](https://apis.io/security/hodinkee/hodinkee-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Hodinkee Scopes](https://apis.io/scopes/hodinkee/hodinkee-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Hodinkee Plans Pricing](https://apis.io/plans/hodinkee/hodinkee-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Hodinkee Rate Limits](https://apis.io/rate-limits/hodinkee/hodinkee-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.hodinkee.com/)
+- [Documentation](https://shop.hodinkee.com/agents.md)
+- [Sign up](https://www.hodinkee.com/signup)
+- [Support](https://www.hodinkee.com/pages/contact)
+- [Blog](https://www.hodinkee.com/latest)
+- [Terms of service](https://www.hodinkee.com/terms-of-service)
+- [Privacy policy](https://www.hodinkee.com/privacy-policy)
+- [GitHub](https://github.com/hodinkee)
+
+## API Evangelist rating
+
+**Kin Score 25.8** — emerging · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 0.0 |
+| Contract governance | 18.2 |
+| Operational transparency | 2.6 |
+| Developer ergonomics | 30.4 |
+| Access clarity | 34.2 |
+
+**Agent readiness 23.7** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | platform (partial credit) |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | — |
+| Agentic Commerce | platform (partial credit) |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 34.3** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/hodinkee/](https://apis.io/providers/hodinkee/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Hodinkee: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/hodinkee/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
